@@ -8,10 +8,13 @@ class pokelist extends StatefulWidget {
   @override
   _pokelistState createState() => _pokelistState();
 }
-
+String capitalize(String s) {
+  return '${s[0].toUpperCase()}${s.substring(1)}';
+}
 List pokename =[];
 Pokemodel pokemodel;  
 List pokee=[];
+
 class _pokelistState extends State<pokelist> {
   @override
   void initState() {
@@ -31,16 +34,17 @@ class _pokelistState extends State<pokelist> {
         });  
       }
       for(int i=0 ; i<pokename.length; i++){
+        print(pokename[i]['url']);
         var apitype = await http.get(pokename[i]['url']);
         if(apitype.statusCode==200){
           var itemstype=jsonDecode(apitype.body); 
           var poki= Pokemodel.fromJson(itemstype);
+         
           setState(() {
             pokee.add(poki);
           });
-          
         }
-      }
+      } 
   }
 
   @override
@@ -67,7 +71,7 @@ class _pokelistState extends State<pokelist> {
             children: <Widget>[
               Container(width: 100),
               Image.network(image,height: 170,width: 170),
-              Text(name.toString(),style: TextStyle(fontSize: 25),),
+              Text(capitalize(name),style: TextStyle(fontSize: 25),),
             ],
           ),
       )
@@ -77,7 +81,7 @@ class _pokelistState extends State<pokelist> {
 }
 
 class pokemonSearch extends SearchDelegate<String>{
- 
+
   @override
   List<Widget> buildActions(BuildContext context) {
       return[
@@ -92,8 +96,8 @@ class pokemonSearch extends SearchDelegate<String>{
   
     @override
     Widget buildResults(BuildContext context) {
-      final pokeee= query.isEmpty? pokee: pokee.where((p) => p.name.toLowerCase().startsWith(query)).toList();
-     return ListView.builder(itemCount: pokeee.length , itemBuilder: (context,index){
+     final pokeee= query.isEmpty? pokee: pokee.where((p) => p.name.startsWith(query.toLowerCase())).toList();
+     return pokeee.isEmpty? Text("No Pokemon"): ListView.builder(itemCount: pokeee.length , itemBuilder: (context,index){
 
        final pokemon = pokeee[index];
        return InkWell( onTap: (){
@@ -103,7 +107,7 @@ class pokemonSearch extends SearchDelegate<String>{
           child: Column(
             children: <Widget>[
               Container(margin: EdgeInsets.only(bottom:10)),
-              Text(pokemon.name,style: TextStyle(fontSize: 25),),
+              Text(capitalize(pokemon.name),style: TextStyle(fontSize: 25),),
               Container(margin: EdgeInsets.only(bottom:15)),
             ],
           ),
@@ -114,8 +118,8 @@ class pokemonSearch extends SearchDelegate<String>{
   
     @override
     Widget buildSuggestions(BuildContext context) {
-     final pokeee= query.isEmpty? pokee: pokee.where((p) => p.name.toLowerCase().startsWith(query)).toList();
-     return ListView.builder(itemCount: pokeee.length , itemBuilder: (context,index){
+     final pokeee= query.isEmpty? pokee: pokee.where((p) => p.name.startsWith(query.toLowerCase())).toList();
+     return pokeee.isEmpty? Text("No Pokemon"): ListView.builder(itemCount: pokeee.length , itemBuilder: (context,index){
 
        final pokemon = pokeee[index];
        return InkWell( onTap: (){
@@ -125,7 +129,7 @@ class pokemonSearch extends SearchDelegate<String>{
           child: Column(
             children: <Widget>[
               Container(margin: EdgeInsets.only(bottom:10)),
-              Text(pokemon.name,style: TextStyle(fontSize: 25),),
+              Text(capitalize(pokemon.name),style: TextStyle(fontSize: 25),),
               Container(margin: EdgeInsets.only(bottom:15)),
             ],
           ),

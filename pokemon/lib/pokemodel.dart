@@ -24,14 +24,12 @@ class Pokemodel {
         .toList();
 
     return Pokemodel(
-      name: "${json["name"].toString()[0].toUpperCase()}${json["name"].toString().substring(1)}",
+      name: json['name'],
       height: double.parse(json["height"].toString()),
       weight: double.parse(json["weight"].toString()),
       image: json["sprites"]["other"]["official-artwork"]["front_default"],
       types: type,
       abilities: abiliti
-      
     );
-    
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon/pokemodel.dart';
-
+String capitalize(String s) {
+  return '${s[0].toUpperCase()}${s.substring(1)}';
+}
 class pokedetails extends StatelessWidget {
   final Pokemodel pokemodel;
   pokedetails({this.pokemodel});
@@ -18,7 +20,7 @@ class pokedetails extends StatelessWidget {
               Container(margin: EdgeInsets.only(top:100)),
               Image.network(pokemodel.image, height: 200,width: 200,),
               Container(margin: EdgeInsets.only(bottom:10)),
-              Text(pokemodel.name,style:TextStyle(fontSize: 50)),
+              Text(capitalize(pokemodel.name),style:TextStyle(fontSize: 50)),
               Container(margin: EdgeInsets.only(bottom:10)),
               Text("Height: "+pokemodel.height.toString()),
               Container(margin: EdgeInsets.only(bottom:10)),
