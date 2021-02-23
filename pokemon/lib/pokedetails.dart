@@ -9,7 +9,7 @@ class pokedetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(pokemodel.name),),
+        appBar: AppBar(title: Text(capitalize(pokemodel.name)),),
         body:getBody()
       );
   }
